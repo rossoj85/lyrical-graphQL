@@ -1,14 +1,35 @@
-import React, {Component} from 'react'
-
+import React, {Component} from 'react';
+import gql from 'graphQL-tag';
+import { graphQL, graphql } from 'react-apollo'
 
  class Songlist extends Component{
+
+    renderSongs(){
+        return this.props.data.songs.map(song=>{
+            return(
+                <li key={song.id} className="collection-item">
+                    {song.title}
+                </li>
+            )
+        })
+    }
     render(){
+       if(this.props.data.loading) {return <div>Loading...</div>};
         return(
-        <div>
-            <h1>Hello to TeaVen </h1>
-        </div>
+        <ul className="collection">
+            {this.renderSongs()}
+        </ul>
         )
     }
 }
 
-export default (Songlist)
+const query = gql`
+{
+    songs{
+        id
+        title
+    }
+}
+`
+
+export default graphql(query) (Songlist);
