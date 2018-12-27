@@ -11,15 +11,14 @@ import query from '../queries/fetchsongs'
         console.log('Delete clicked')
         this.props.mutate( { 
             variables:{id},
-            refetchQueries: [{query}]
-        })
+        }).then(()=> this.props.data.refetch())
     }
     renderSongs(){
         return this.props.data.songs.map(({id, title})=>{
             return(
                 <div key={id}>
                     <li className="collection-item">
-                        {title}
+                        <Link to={`songs/${id}`}>{title}</Link>
                         <i className='material-icons' onClick ={()=>this.onSongDelete(id)}> delete </i> 
                     </li>
                 </div>
